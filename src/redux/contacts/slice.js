@@ -29,7 +29,6 @@ const contactsReducer = createSlice({
             })
             .addCase(addContact.fulfilled, (state, action) => {
                 state.loading = false;
-                console.log(action.payload);
                 state.items.push(action.payload);
             })
             .addCase(addContact.rejected, (state, action) => {
