@@ -9,6 +9,7 @@ import Layout from './components/Layout/Layout';
 import { RestrictedRoute } from './RestrictedRoute';
 import { PrivateRoute } from './PrivateRoute';
 import { selectIsRefreshing } from './redux/auth/selectors';
+import { refreshUser } from './redux/auth/operations';
 
 const Home = lazy(() => import('./pages/Home'));
 const Registration = lazy(() => import('./pages/Registration'));
@@ -17,10 +18,17 @@ const Contacts = lazy(() => import('./pages/Contacts'));
 
 function App() {
     const isRefreshing = useSelector(selectIsRefreshing);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(refreshUser());
+    }, [dispatch]);
     return (
         <Layout>
             {isRefreshing ? (
-                <b>Refreshing user, please wait...</b>
+                <b>
+                    Refreshing user, please wait <Loader />
+                </b>
             ) : (
                 <Suspense fallback={<Loader />}>
                     <Routes>
