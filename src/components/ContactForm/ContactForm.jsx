@@ -3,7 +3,7 @@ import { useId } from 'react';
 import * as Yup from 'yup';
 import css from './ContactForm.module.css';
 import { useDispatch } from 'react-redux';
-// import { addContact } from '../../redux/contacts/operations';
+import { addContact } from '../../redux/contacts/operations';
 
 const ContactSchema = Yup.object().shape({
     name: Yup.string().min(3, 'Too short!').max(50, 'Too long!').required('Required'),
@@ -21,7 +21,7 @@ export default function ContactForm() {
     const dispatch = useDispatch();
 
     const handleSubmit = (newContact, actions) => {
-        // dispatch(addContact(newContact));
+        dispatch(addContact(newContact));
         actions.resetForm();
     };
 

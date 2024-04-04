@@ -8,9 +8,9 @@ const setAuthHeader = token => {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 };
 
-// const clearAuthHeader = () => {
-//     axios.defaults.headers.common['Authorization'] = '';
-// };
+const clearAuthHeader = () => {
+    axios.defaults.headers.common['Authorization'] = '';
+};
 
 export const register = createAsyncThunk('auth/register', async (userInfo, thunkAPI) => {
     try {
@@ -32,20 +32,11 @@ export const logIn = createAsyncThunk('auth/login', async (userInfo, thunkAPI) =
     }
 });
 
-// export const addContact = createAsyncThunk('contacts/addContact', async (newContact, thunkAPI) => {
-//     try {
-//         const response = await axios.post('/contacts', newContact);
-//         return response.data;
-//     } catch (e) {
-//         return thunkAPI.rejectWithValue(e.message);
-//     }
-// });
-
-// export const deleteContact = createAsyncThunk('contacts/deleteContact', async (id, thunkAPI) => {
-//     try {
-//         const response = await axios.delete(`/contacts/${id}`);
-//         return response.data;
-//     } catch (e) {
-//         return thunkAPI.rejectWithValue(e.message);
-//     }
-// });
+export const logOut = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
+    try {
+        await axios.post('/users/logout');
+        clearAuthHeader();
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.message);
+    }
+});
