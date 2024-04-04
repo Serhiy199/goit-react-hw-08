@@ -1,32 +1,31 @@
 import './App.css';
-import ContactForm from './components/ContactForm/ContactForm';
-import SearchBox from './components/SearchBox/SearchBox';
-import ContactList from './components/ContactList/ContactList';
+
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { fetchContacts } from './redux/contactsOps';
-import { selectLoading, selectError } from './redux/contactsSlice';
+import { Suspense, useEffect } from 'react';
+// import { fetchContacts } from './redux/contacts/operations';
+import { selectLoading, selectError } from './redux/contacts/selectors';
 import Loader from './components/Loader/Loader';
+import { Routes, Route } from 'react-router-dom';
+import Layout from './components/Layout/Layout';
+import { RestrictedRoute } from './RestrictedRoute';
+import { PrivateRoute } from './PrivateRoute';
+import Registration from './pages/Registration';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Contacts from './pages/Contacts';
 
 function App() {
-    const dispatch = useDispatch();
-    const loading = useSelector(selectLoading);
-    const error = useSelector(selectError);
-
-    useEffect(() => {
-        dispatch(fetchContacts());
-    }, [dispatch]);
-
     return (
-        <>
-            <h1>Phonebook</h1>
-            <ContactForm />
-
-            <SearchBox />
-            {loading && <Loader />}
-            {error && <h2>{error}</h2>}
-            {!loading && <ContactList />}
-        </>
+        <Layout>
+            <Suspense fallback={null}>
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/register" element={<Registration />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/contacts" element={<Contacts />} />
+                </Routes>
+            </Suspense>
+        </Layout>
     );
 }
 
